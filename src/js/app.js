@@ -13,6 +13,9 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
   const animationList = await getData(`${ApiUrl}?genre=animation`)
   console.log(actionList, dramaList, animationList)
 
+  const $form = document.getElementById('form')
+  const $home = document.getElementById('home')
+
   function videoItemTemplate(movie) {
     return (
         `<div class="primaryPlaylistItem">
@@ -32,6 +35,12 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     return html.body.children[0]
   }
 
+  function addEvent($element) {
+    $element.addEventListener('click', () => {
+      alert('hubo click sobre una pelicula')
+    })
+  }
+
   function renderMovieList (list, $container) {
     $container.children[0].remove()
     list.forEach(movie => {
@@ -40,13 +49,22 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
       const movieElement = createTemplate(HTMLString)
       //console.log(movieElement)
       $container.append(movieElement)
+      addEvent(movieElement)
     })
   }
 
+  $form.addEventListener('submit', event => {
+    event.preventDefault()
+    $home.classList.add('search-active')
+
+  })
+
   const $actionContainer = document.getElementById('action')
   renderMovieList(actionList.data.movies, $actionContainer)
+
   const $dramaContainer = document.getElementById('drama')
   renderMovieList(dramaList.data.movies, $dramaContainer)
+
   const $animationList = document.getElementById('animation')
   renderMovieList(animationList.data.movies, $animationList)
 })()
