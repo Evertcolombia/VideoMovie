@@ -5,7 +5,14 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
   async function getData (url) {
     const data = await fetch(url)
     const response = await data.json()
-    return response;
+    
+    if (response.data.movie_count > 0) {
+      return response
+    } 
+    else {
+      throw new Error('No se encontraron resultados')
+    }
+
   }
 
   const { data: { movies: actionList }} = await getData(`${ApiUrl}?genre=action`)
@@ -70,6 +77,10 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
       const movieElement = createTemplate(HTMLString)
       //console.log(movieElement)
       $container.append(movieElement)
+      const image = movieElement.querySelector('img')
+      image.addEventListener('submit', event => {
+        event.srcElement.classList.add('fadeIn')
+      })
       addEvent(movieElement)
     })
   }
