@@ -80,7 +80,7 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     })
   }
 
-  $form.addEventListener('submit', async event => {
+  async function  formEvent (event) {
     event.preventDefault()
     $home.classList.add('search-active')
     const $loader = document.createElement('img')
@@ -103,7 +103,9 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
       $loader.remove();
       $home.classList.remove('search-active')
     }
-  })
+
+    setTimeout(() => $home.classList.remove('search-active'), 5000)
+  }
 
   async function CacheExist(category) {
     const listName = `${category}List`
@@ -159,8 +161,6 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     }
   }
 
-
-
   function showModal ($element) {
     $overlay.classList.add('active')
     $modal.style.animation = 'modalIn .8s forwards'
@@ -172,13 +172,15 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     $modalTitle.textContent = data.title
     $modalImage.setAttribute('src', data.medium_cover_image)
     $modalDescription.textContent = data.description_full
-
-
-    
   }
 
-  $hideModal.addEventListener('click', () => {
-    $modal.style.animation = 'modalOut .8s forwards'
+  function hideModal () {
     $overlay.classList.remove('active')
-  })
+    $modal.style.animation = 'modalOut .8s forwards'
+  }
+
+  $form.addEventListener('submit', formEvent)
+
+  $hideModal.addEventListener('click', hideModal)
+
 })()
