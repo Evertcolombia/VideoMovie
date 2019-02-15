@@ -17,9 +17,9 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
   const $home = document.getElementById('home')
   const $featuringContainer = document.getElementById('featuring')
 
-  function videoItemTemplate(movie) {
+  function videoItemTemplate(movie, category) {
     return (
-        `<div class="primaryPlaylistItem">
+        `<div class="primaryPlaylistItem" data-id='${movie.id} data-category='${category}>
           <div class="primaryPlaylistItem-image">
             <img src="${movie.medium_cover_image}">
           </div>
@@ -62,10 +62,10 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     }
   }
 
-  function renderMovieList (list, $container) {
+  function renderMovieList (list, $container, category) {
     $container.children[0].remove()
     list.forEach(movie => {
-      const HTMLString = videoItemTemplate(movie)
+      const HTMLString = videoItemTemplate(movie, category)
       //console.log(HTMLString)
       const movieElement = createTemplate(HTMLString)
       //console.log(movieElement)
@@ -99,17 +99,21 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
   })
 
   const $actionContainer = document.getElementById('action')
-  renderMovieList(actionList.data.movies, $actionContainer)
+  renderMovieList(actionList.data.movies, $actionContainer, 'action')
 
   const $dramaContainer = document.getElementById('drama')
-  renderMovieList(dramaList.data.movies, $dramaContainer)
+  renderMovieList(dramaList.data.movies, $dramaContainer, 'drama')
 
   const $animationList = document.getElementById('animation')
-  renderMovieList(animationList.data.movies, $animationList)
+  renderMovieList(animationList.data.movies, $animationList, 'animation')
 
   const $modal = document.getElementById('modal')
   const $overlay = document.getElementById('overlay')
   const $hideModal = document.getElementById('hide-modal')
+
+  const $modalTitle = $modal.querySelectro('h1')
+  const $modalImage = $modal.querySelector('img')
+  const $modalDescription = $modal.querySelector('p')
   
   function showModal () {
     $overlay.classList.add('active')
