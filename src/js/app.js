@@ -26,16 +26,27 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     )
   }
 
-  const $actionContainer = document.getElementById('action')
-  //console.log(videoItemTemplate('bitcoin-died', 'src/images/covers/bitcoin.jpg'))
-  actionList.data.movies.forEach(movie => {
-    const HTMLString = videoItemTemplate(movie)
-    //console.log(HTMLString)
+  function createTemplate (HTMLString) {
     const html = document.implementation.createHTMLDocument()
     html.body.innerHTML = HTMLString
-    $actionContainer.append(html.body.children[0])
+    return html.body.children[0]
+  }
 
-    //debugger
+  function renderMovieList (list, $container) {
+    $container.children[0].remove()
+    list.forEach(movie => {
+      const HTMLString = videoItemTemplate(movie)
+      //console.log(HTMLString)
+      const movieElement = createTemplate(HTMLString)
+      //console.log(movieElement)
+      $container.append(movieElement)
+    })
+  }
 
-  })
+  const $actionContainer = document.getElementById('action')
+  renderMovieList(actionList.data.movies, $actionContainer)
+  const $dramaContainer = document.getElementById('drama')
+  renderMovieList(dramaList.data.movies, $dramaContainer)
+  const $animationList = document.getElementById('animation')
+  renderMovieList(animationList.data.movies, $animationList)
 })()
