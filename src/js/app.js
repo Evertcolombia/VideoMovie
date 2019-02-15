@@ -12,4 +12,19 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
   const dramaList = await getData(`${ApiUrl}?genre=drama`)
   const animationList = await getData(`${ApiUrl}?genre=animation`)
   console.log(actionList, dramaList, animationList)
+
+  function videoItemTemplate(titulo, imagen) {
+    return (
+        `<div class="primaryPlaylistItem">
+          <div class="primaryPlaylistItem-image">
+            <img src="${imagen}">
+          </div>
+          <h4 class="primaryPlaylistItem-title">
+            ${titulo}
+          </h4>
+        </div>`
+    )
+  }
+
+  console.log(videoItemTemplate('bitcoin-died', 'src/images/covers/bitcoin.jpg'))
 })()
