@@ -26,9 +26,16 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     )
   }
 
+  const $actionContainer = document.getElementById('action')
   //console.log(videoItemTemplate('bitcoin-died', 'src/images/covers/bitcoin.jpg'))
   actionList.data.movies.forEach(movie => {
     const HTMLString = videoItemTemplate(movie)
-    console.log(HTMLString)
+    //console.log(HTMLString)
+    const html = document.implementation.createHTMLDocument()
+    html.body.innerHTML = HTMLString
+    $actionContainer.append(html.body.children[0])
+
+    //debugger
+
   })
 })()
