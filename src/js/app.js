@@ -98,15 +98,16 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     $featuringContainer.append($loader)
     const data = new FormData($form);
 
-    const peli = await getData(`${ApiUrl}?limit=1&query_term=${data.get('name')}`)
-    
-    $featuringContainer.children[0].remove()
-    
-    const HTMLString = featuringTemplate(peli.data.movies[0])
-    console.log(HTMLString)
-    
-    $featuringContainer.innerHTML = HTMLString
-
+    try { 
+      const { data: { movies: peli }} = await getData(`${ApiUrl}?limit=1&query_term=${data.get('name')}`)
+      const HTMLString = featuringTemplate(peli[0])
+      $featuringContainer.innerHTML = HTMLString
+    } 
+    catch (error){
+      alert(error.message)
+      $loader.remove();
+      $home.classList.remove('search-active')
+    }
   })
 
   const $actionContainer = document.getElementById('action')
