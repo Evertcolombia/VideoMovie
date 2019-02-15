@@ -30,6 +30,20 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     )
   }
 
+  function featuringTemplate (peli) {
+    return (
+      `<div class="featuring">
++         <div class="featuring-image">
++           <img src="${peli.medium_cover_image}" width="70" height="100" alt="">
++         </div>
++       <div class="featuring-content">
++         <p class="featuring-title">Pelicula encontrada</p>
++         <p class="featuring-album">${peli.title}</p>
++       </div>
++      </div>`
+      )
+  }
+
   function createTemplate (HTMLString) {
     const html = document.implementation.createHTMLDocument()
     html.body.innerHTML = HTMLString
@@ -74,9 +88,13 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     const data = new FormData($form);
 
     const peli = await getData(`${ApiUrl}?limit=1&query_term=${data.get('name')}`)
-    debugger
     
-
+    $featuringContainer.children[0].remove()
+    
+    const HTMLString = featuringTemplate(peli.data.movies[0])
+    console.log(HTMLString)
+    
+    $featuringContainer.innerHTML = HTMLString
 
   })
 
