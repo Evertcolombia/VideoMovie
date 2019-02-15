@@ -60,7 +60,7 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     })
   }
 
-  $form.addEventListener('submit', event => {
+  $form.addEventListener('submit', async event => {
     event.preventDefault()
     $home.classList.add('search-active')
     const $loader = document.createElement('img')
@@ -71,7 +71,12 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     })
     //debugger
     $featuringContainer.append($loader)
+    const data = new FormData($form);
+
+    const peli = await getData(`${ApiUrl}?limit=1&query_term=${data.get('name')}`)
+    debugger
     
+
 
   })
 
