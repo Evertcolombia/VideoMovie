@@ -15,11 +15,6 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
 
   }
 
-  const { data: { movies: actionList }} = await getData(`${ApiUrl}?genre=action`)
-  const { data: { movies: dramaList }} = await getData(`${ApiUrl}?genre=drama`)
-  const { data: { movies: animationList }} = await getData(`${ApiUrl}?genre=animation`)
-  console.log(actionList, dramaList, animationList)
-
   const $form = document.getElementById('form')
   const $home = document.getElementById('home')
   const $featuringContainer = document.getElementById('featuring')
@@ -110,12 +105,19 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     }
   })
 
+
+  const { data: { movies: actionList }} = await getData(`${ApiUrl}?genre=action`)
+  window.localStorage.setItem('actionList', JSON.stringify(actionList))
   const $actionContainer = document.getElementById('action')
   renderMovieList(actionList, $actionContainer, 'action')
 
+  const { data: { movies: dramaList }} = await getData(`${ApiUrl}?genre=drama`)
+  window.localStorage.setItem('dramaList', JSON.stringify(dramaList))
   const $dramaContainer = document.getElementById('drama')
   renderMovieList(dramaList, $dramaContainer, 'drama')
 
+  const { data: { movies: animationList }} = await getData(`${ApiUrl}?genre=animation`)
+  window.localStorage.setItem('animationList', JSON.stringify(animationList))
   const $animationList = document.getElementById('animation')
   renderMovieList(animationList, $animationList, 'animation')
 
