@@ -15,6 +15,7 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
 
   const $form = document.getElementById('form')
   const $home = document.getElementById('home')
+  const $featuringContainer = document.getElementById('featuring')
 
   function videoItemTemplate(movie) {
     return (
@@ -41,6 +42,12 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     })
   }
 
+  function setAttributes ($element, attributes = {}) { 
+    for (const attribute in attributes) {
+      $element.setAttribute(attribute, attributes[attribute])
+    }
+  }
+
   function renderMovieList (list, $container) {
     $container.children[0].remove()
     list.forEach(movie => {
@@ -56,6 +63,15 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
   $form.addEventListener('submit', event => {
     event.preventDefault()
     $home.classList.add('search-active')
+    const $loader = document.createElement('img')
+    setAttributes($loader, {
+      src: 'src/images/loader.gif',
+      width: 50,
+      height: 50
+    })
+    //debugger
+    $featuringContainer.append($loader)
+    
 
   })
 
