@@ -4,7 +4,7 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
 
   async function getData (url) {
     const data = await fetch(url)
-    const response = data.json()
+    const response = await data.json()
     return response;
   }
 
@@ -13,18 +13,22 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
   const animationList = await getData(`${ApiUrl}?genre=animation`)
   console.log(actionList, dramaList, animationList)
 
-  function videoItemTemplate(titulo, imagen) {
+  function videoItemTemplate(movie) {
     return (
         `<div class="primaryPlaylistItem">
           <div class="primaryPlaylistItem-image">
-            <img src="${imagen}">
+            <img src="${movie.medium_cover_image}">
           </div>
           <h4 class="primaryPlaylistItem-title">
-            ${titulo}
+            ${movie.title}
           </h4>
         </div>`
     )
   }
 
-  console.log(videoItemTemplate('bitcoin-died', 'src/images/covers/bitcoin.jpg'))
+  //console.log(videoItemTemplate('bitcoin-died', 'src/images/covers/bitcoin.jpg'))
+  actionList.data.movies.forEach(movie => {
+    const HTMLString = videoItemTemplate(movie)
+    console.log(HTMLString)
+  })
 })()
