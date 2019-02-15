@@ -105,19 +105,30 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     }
   })
 
+  async function CacheExist(category) {
+    const listName = `${category}List`
+    const cacheList = window.localStorage.getItem(listName)
 
-  const { data: { movies: actionList }} = await getData(`${ApiUrl}?genre=action`)
-  window.localStorage.setItem('actionList', JSON.stringify(actionList))
+    if (cacheList) {
+      return  JSON.parse(cacheList)
+    }
+    else {
+      const { data: { movies : data }} = await getData(`${ApiUrl}?genre=${category}`)
+      window.localStorage.setItem('listName', JSON.stringify(data))
+      return data
+    }
+  }
+
+
+  const actionList = await CacheExist('action')
   const $actionContainer = document.getElementById('action')
   renderMovieList(actionList, $actionContainer, 'action')
 
-  const { data: { movies: dramaList }} = await getData(`${ApiUrl}?genre=drama`)
-  window.localStorage.setItem('dramaList', JSON.stringify(dramaList))
+  const dramaList = await CacheExist('drama')
   const $dramaContainer = document.getElementById('drama')
   renderMovieList(dramaList, $dramaContainer, 'drama')
 
-  const { data: { movies: animationList }} = await getData(`${ApiUrl}?genre=animation`)
-  window.localStorage.setItem('animationList', JSON.stringify(animationList))
+  const animationList = await CacheExist('animation')
   const $animationList = document.getElementById('animation')
   renderMovieList(animationList, $animationList, 'animation')
 
