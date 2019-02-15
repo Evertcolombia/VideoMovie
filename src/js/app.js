@@ -52,7 +52,7 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
 
   function addEvent($element) {
     $element.addEventListener('click', () => {
-      alert('hubo click sobre una pelicula')
+      showModal();
     })
   }
 
@@ -106,4 +106,18 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
 
   const $animationList = document.getElementById('animation')
   renderMovieList(animationList.data.movies, $animationList)
+
+  const $modal = document.getElementById('modal')
+  const $overlay = document.getElementById('overlay')
+  const $hideModal = document.getElementById('hide-modal')
+  
+  function showModal () {
+    $overlay.classList.add('active')
+    $modal.style.animation = 'modalIn .8s forwards'
+  }
+
+  $hideModal.addEventListener('click', () => {
+    $modal.style.animation = 'modalOut .8s forwards'
+    $overlay.classList.remove('active')
+  })
 })()
