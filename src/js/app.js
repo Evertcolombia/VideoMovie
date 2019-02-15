@@ -104,7 +104,10 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
       $home.classList.remove('search-active')
     }
 
-    setTimeout(() => $home.classList.remove('search-active'), 5000)
+    setTimeout(() => {
+      $featuringContainer.remove()
+      $home.classList.remove('search-active')}
+      , 5000)
   }
 
   async function CacheExist(category) {
