@@ -144,6 +144,9 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     const data = findMovie(id, category)
     console.log(data)
     //debugger
+    $modalTitle.textContent = data.title
+    $modalImage.setAttribute('src', data.medium_cover_image)
+    $modalDescription.textContent = data.description_full
 
 
     
