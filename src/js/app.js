@@ -8,9 +8,9 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
     return response;
   }
 
-  const actionList = await getData(`${ApiUrl}?genre=action`)
-  const dramaList = await getData(`${ApiUrl}?genre=drama`)
-  const animationList = await getData(`${ApiUrl}?genre=animation`)
+  const { data: { movies: actionList }} = await getData(`${ApiUrl}?genre=action`)
+  const { data: { movies: dramaList }} = await getData(`${ApiUrl}?genre=drama`)
+  const { data: { movies: animationList }} = await getData(`${ApiUrl}?genre=animation`)
   console.log(actionList, dramaList, animationList)
 
   const $form = document.getElementById('form')
@@ -19,7 +19,7 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
 
   function videoItemTemplate(movie, category) {
     return (
-        `<div class="primaryPlaylistItem" data-id='${movie.id} data-category='${category}>
+        `<div class="primaryPlaylistItem" data-id='${movie.id}' data-category='${category}'>
           <div class="primaryPlaylistItem-image">
             <img src="${movie.medium_cover_image}">
           </div>
@@ -52,7 +52,7 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
 
   function addEvent($element) {
     $element.addEventListener('click', () => {
-      showModal();
+      showModal($element);
     })
   }
 
@@ -99,25 +99,54 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
   })
 
   const $actionContainer = document.getElementById('action')
-  renderMovieList(actionList.data.movies, $actionContainer, 'action')
+  renderMovieList(actionList, $actionContainer, 'action')
 
   const $dramaContainer = document.getElementById('drama')
-  renderMovieList(dramaList.data.movies, $dramaContainer, 'drama')
+  renderMovieList(dramaList, $dramaContainer, 'drama')
 
   const $animationList = document.getElementById('animation')
-  renderMovieList(animationList.data.movies, $animationList, 'animation')
+  renderMovieList(animationList, $animationList, 'animation')
 
   const $modal = document.getElementById('modal')
   const $overlay = document.getElementById('overlay')
   const $hideModal = document.getElementById('hide-modal')
 
-  const $modalTitle = $modal.querySelectro('h1')
+  const $modalTitle = $modal.querySelector('h1')
   const $modalImage = $modal.querySelector('img')
   const $modalDescription = $modal.querySelector('p')
   
-  function showModal () {
+  function findById (list, id) {
+    return list.find(movie =>  movie.id === parseInt(id))
+  }
+
+  function findMovie (id, category) {
+    switch (category) {
+      case 'action': {
+        return findById(actionList, id)
+      }
+      case 'drama' : {
+        return findById(dramaList, id)
+      }
+      default: {
+        return(findById(animationList, id))
+      }
+
+    }
+  }
+
+
+
+  function showModal ($element) {
     $overlay.classList.add('active')
     $modal.style.animation = 'modalIn .8s forwards'
+    const id = $element.dataset.id
+    const category = $element.dataset.category
+    const data = findMovie(id, category)
+    console.log(data)
+    //debugger
+
+
+    
   }
 
   $hideModal.addEventListener('click', () => {
