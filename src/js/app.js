@@ -79,11 +79,31 @@ const ApiUsers = 'https://randomuser.me/api/';
       )
   }
 
+  function friendsTemplate (user) {
+    return (
+      `<li class="playlistFriends-item">
+              <a href="#">
+                <img src="${user.picture.thumbnail}" />
+                <span>
+                  ${user.name.first} ${user.name.last}
+                </span>
+              </a>
+            </li>`
+      )
+  }
+
   function createTemplate (HTMLString) {
     const html = document.implementation.createHTMLDocument()
     html.body.innerHTML = HTMLString
     return html.body.children[0]
   }
+
+   users.forEach(user => {
+    const HTMLString = friendsTemplate(user)
+    const userElement = createTemplate(HTMLString)
+    $friendsList.append(userElement)
+
+  })
 
   function addEvent($element) {
     $element.addEventListener('click', () => {
