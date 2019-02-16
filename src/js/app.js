@@ -16,6 +16,7 @@ const ApiUsers = 'https://randomuser.me/api/';
   const $modalDescription = $modal.querySelector('p')
 
   const $friendsList = document.querySelector('.friends')
+  const $updateStorage = document.getElementById('update-storage')
   
 
   const counter = 10;
@@ -49,8 +50,6 @@ const ApiUsers = 'https://randomuser.me/api/';
     }
   }
 
-  await getUsers(ApiUsers)
-  console.log(users)
 
   function videoItemTemplate(movie, category) {
     return (
@@ -98,13 +97,6 @@ const ApiUsers = 'https://randomuser.me/api/';
     return html.body.children[0]
   }
 
-   users.forEach(user => {
-    const HTMLString = friendsTemplate(user)
-    const userElement = createTemplate(HTMLString)
-    $friendsList.append(userElement)
-
-  })
-
   function addEvent($element) {
     $element.addEventListener('click', () => {
       showModal($element);
@@ -126,7 +118,7 @@ const ApiUsers = 'https://randomuser.me/api/';
       //console.log(movieElement)
       $container.append(movieElement)
       const image = movieElement.querySelector('img')
-      image.addEventListener('submit', event => {
+      image.addEventListener('load', event => {
         event.srcElement.classList.add('fadeIn')
       })
       addEvent(movieElement)
@@ -190,6 +182,16 @@ const ApiUsers = 'https://randomuser.me/api/';
   const $animationList = document.getElementById('animation')
   renderMovieList(animationList, $animationList, 'animation')
 
+  await getUsers(ApiUsers)
+
+  users.forEach(user => {
+    const HTMLString = friendsTemplate(user)
+    const userElement = createTemplate(HTMLString)
+    $friendsList.append(userElement)
+
+  })
+
+
   
   function findById (list, id) {
     return list.find(movie =>  movie.id === parseInt(id))
@@ -210,6 +212,12 @@ const ApiUsers = 'https://randomuser.me/api/';
     }
   }
 
+  function updateStorage () {
+    window.localStorage.clear();
+    location.reload();
+
+  }
+
   function showModal ($element) {
     $overlay.classList.add('active')
     $modal.style.animation = 'modalIn .8s forwards'
@@ -227,6 +235,8 @@ const ApiUsers = 'https://randomuser.me/api/';
     $overlay.classList.remove('active')
     $modal.style.animation = 'modalOut .8s forwards'
   }
+
+  $updateStorage.addEventListener('click', updateStorage)
 
   $form.addEventListener('submit', formEvent)
 

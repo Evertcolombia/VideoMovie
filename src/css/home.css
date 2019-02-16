@@ -152,6 +152,7 @@ body {
 .primary-user {
   justify-self: end;
   margin: 5px 0;
+  display:  flex;
 }
 
 .user p {
@@ -219,7 +220,7 @@ body {
 
 
 .featuring {
-  background: linear-gradient(to right, #2044f2, #9c9a9b);
+  background: linear-gradient(to right, #171929, #8d70bb);
   display: flex;
   height: 100%;
   align-items: center;
@@ -237,6 +238,10 @@ body {
 .featuring-album {
   font-size: 1.3em;
   margin: 10px;
+}
+
+.primary-user .update-storage {
+  background: linear-gradient(to right, #eecead, #e82a0b);
 }
 
 
