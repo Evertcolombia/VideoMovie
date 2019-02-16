@@ -1,6 +1,25 @@
 const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
+const ApiUsers = 'https://randomuser.me/api/';
 
 (async function load () {
+
+  const $form = document.getElementById('form')
+  const $home = document.getElementById('home')
+  const $featuringContainer = document.getElementById('featuring')
+
+  const $modal = document.getElementById('modal')
+  const $overlay = document.getElementById('overlay')
+  const $hideModal = document.getElementById('hide-modal')
+
+  const $modalTitle = $modal.querySelector('h1')
+  const $modalImage = $modal.querySelector('img')
+  const $modalDescription = $modal.querySelector('p')
+
+  const $friendsList = document.querySelector('.friends')
+  
+
+  const counter = 10;
+  let users = []
 
   async function getData (url) {
     const data = await fetch(url)
@@ -15,9 +34,23 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
 
   }
 
-  const $form = document.getElementById('form')
-  const $home = document.getElementById('home')
-  const $featuringContainer = document.getElementById('featuring')
+  async function getUsers(url) {
+     
+    for (let i=0; i < counter; i++) {
+      const data = await fetch (url)
+      const response  = await data.json()
+      
+      if (response) {
+        users.push(response.results[0])
+      }
+        else {
+          throw new Error('No se encontraron resultados')     
+        }
+    }
+  }
+
+  await getUsers(ApiUsers)
+  console.log(users)
 
   function videoItemTemplate(movie, category) {
     return (
@@ -137,13 +170,6 @@ const ApiUrl = 'https://yts.am/api/v2/list_movies.json';
   const $animationList = document.getElementById('animation')
   renderMovieList(animationList, $animationList, 'animation')
 
-  const $modal = document.getElementById('modal')
-  const $overlay = document.getElementById('overlay')
-  const $hideModal = document.getElementById('hide-modal')
-
-  const $modalTitle = $modal.querySelector('h1')
-  const $modalImage = $modal.querySelector('img')
-  const $modalDescription = $modal.querySelector('p')
   
   function findById (list, id) {
     return list.find(movie =>  movie.id === parseInt(id))
